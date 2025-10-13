@@ -1,0 +1,104 @@
+{
+  "items": [
+    {
+      "id": "wla-ambassador-2025",
+      "org": "Wildlife Leadership Academy",
+      "title": "Youth Conservation Ambassador Program",
+      "location": "Statewide PA",
+      "startDate": "2025-06-01",
+      "url": "https://wla-app.vercel.app/",
+      "tags": ["youth", "field-research", "ambassador", "leadership"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Join PA's elite conservation training program. Conduct real field research, earn badges, and become a conservation leader. Open to students grades 6-12.",
+      "deadline": "2025-04-15",
+      "pointValue": 50
+    },
+    {
+      "id": "pfbc-trout-stocking-spring-2025",
+      "org": "PA Fish & Boat Commission",
+      "title": "Spring Trout Stocking Volunteer Day",
+      "location": "Regional - Multiple Sites",
+      "startDate": "2025-03-15",
+      "tags": ["volunteer", "field", "trout"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Help stock trout in PA streams. Learn from PFBC biologists about fisheries management.",
+      "contact": "Regional PFBC office",
+      "pointValue": 10
+    },
+    {
+      "id": "tu-stream-cleanup-allegheny",
+      "org": "Trout Unlimited - Allegheny Chapter",
+      "title": "Monthly Stream Cleanup & Restoration",
+      "location": "Allegheny County",
+      "startDate": "2025-04-20",
+      "url": "https://www.patrout.org/",
+      "tags": ["volunteer", "habitat", "restoration"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Ongoing stream restoration on Deer Creek. Includes invasive species removal, bioengineering, and macro monitoring.",
+      "recurring": "Monthly - Third Saturday",
+      "pointValue": 15
+    },
+    {
+      "id": "dcnr-env-ed-internship",
+      "org": "PA Department of Conservation & Natural Resources",
+      "title": "Environmental Education Internship",
+      "location": "State Parks - Multiple Locations",
+      "startDate": "2025-06-01",
+      "tags": ["internship", "education", "career"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Summer internship assisting with environmental education programs at PA State Parks. College credit available.",
+      "requirements": ["Ages 16+", "Background check"],
+      "stipend": "$15/hour",
+      "pointValue": 100
+    },
+    {
+      "id": "pfbc-coldwater-survey",
+      "org": "PA Fish & Boat Commission",
+      "title": "Coldwater Stream Survey - Student Ride-Along",
+      "location": "Western PA",
+      "startDate": "2025-05-10",
+      "tags": ["career", "field", "science"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Shadow PFBC fisheries biologists during brook trout population surveys. Learn electrofishing, data collection, and habitat assessment techniques.",
+      "requirements": ["Teacher/parent permission", "Completed TIC program"],
+      "contact": "Northwest Region - 814-337-0444",
+      "pointValue": 25
+    },
+    {
+      "id": "library-citizen-science",
+      "org": "Allegheny County Library Association",
+      "title": "Citizen Science Saturdays",
+      "location": "County Libraries",
+      "tags": ["education", "community", "data"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Monthly citizen science programs at local libraries. Topics include: water quality monitoring, iNaturalist submissions, macro identification.",
+      "recurring": "Monthly - Second Saturday",
+      "audience": "All ages",
+      "pointValue": 5
+    },
+    {
+      "id": "wildpraxis-field-day",
+      "org": "WildPraxis / Wildlife Leadership Academy",
+      "title": "WildPraxis Watershed Field Day",
+      "location": "Multiple PA Watersheds",
+      "startDate": "2025-05-15",
+      "url": "https://wla-app.vercel.app/",
+      "tags": ["field", "technology", "ambassadors"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "Use the WildPraxis app for real watershed monitoring. Collect data, identify macros, build habitat scores. Data contributes to statewide conservation database.",
+      "pointValue": 30
+    },
+    {
+      "id": "county-parks-macro-blitz",
+      "org": "Allegheny County Parks",
+      "title": "Annual Macro Invertebrate Blitz",
+      "location": "Boyce Park, North Park, South Park",
+      "startDate": "2025-04-25",
+      "tags": ["volunteer", "science", "macro"],
+      "lastUpdated": "2025-01-13T00:00:00Z",
+      "description": "County-wide stream survey day. Teams collect and identify macros at multiple sites. Results used for county watershed health report.",
+      "pointValue": 20
+    }
+  ]
+}
+

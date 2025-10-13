@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mapbox GL styles */
+@import "mapbox-gl/dist/mapbox-gl.css";
+
+/* Basic shadcn-like card/button etc. rely on Tailwind classes from components */
