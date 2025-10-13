@@ -360,7 +360,7 @@ export function ResourceHub() {
               <CardDescription>
                 Connect with Trout Unlimited, Wildlife Leadership Academy, and watershed groups
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent className="space-y-4">
               {/* Wildlife Leadership Academy */}
               <div className="p-4 bg-gradient-to-br from-sky-50 to-emerald-50 rounded-xl border-2 border-sky-200">
