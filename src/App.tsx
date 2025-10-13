@@ -35,7 +35,7 @@ import {
   Plus,
   Star,
 } from "lucide-react";
-import type { Map } from "mapbox-gl";
+import type { Map as MapboxMap } from "mapbox-gl";
 
 // NOTE: If bundler complains about mapbox CSS, add it to your global CSS (e.g., index.css):
 // @import "mapbox-gl/dist/mapbox-gl.css";

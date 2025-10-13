@@ -266,5 +266,5 @@ class PFBCService {
 export const pfbcService = new PFBCService();
 
 // Export types
-export type { StockingEvent as PFBCStockingEvent, WaterBody as PFBCWaterBody, PFBCEvent };
+export type { StockingEvent as PFBCStockingEvent, WaterBody as PFBCWaterBody };
 

@@ -655,6 +655,240 @@ export default function TICEnhancedApp() {
   );
 }
 
-// ... Component definitions continue in next message due to length ...
-// (ProfileCard, ProgressCard, QuickStatsCard, Dashboard, WatershedExplorer, HabitatBuilder, MacroKeyGame, WaterQualityTracker, CareersAndOpportunities, etc.)
+// ==============================
+// COMPONENT IMPLEMENTATIONS
+// ==============================
 
+function ProfileCard({ state, setState }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>> }) {
+  const [name, setName] = useState(state.profile.name);
+  const [classroom, setClassroom] = useState(state.profile.classroom);
+  const [band, setBand] = useState(state.profile.gradeBand);
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-base">Student Profile</CardTitle>
+        <CardDescription>Local & private to this device.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="space-y-1">
+          <Label htmlFor="name">Name</Label>
+          <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Student name" />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="class">Class</Label>
+          <Input id="class" value={classroom} onChange={(e) => setClassroom(e.target.value)} placeholder="e.g., Urban Academy 3–5" />
+        </div>
+        <div className="space-y-1">
+          <Label>Grade Band</Label>
+          <div className="flex items-center gap-2">
+            {(["K-2", "3-5", "6-8"] as const).map((g) => (
+              <Button key={g} variant={band === g ? "default" : "outline"} size="sm" onClick={() => setBand(g)}>
+                {g}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button
+          onClick={() => setState((s) => ({ ...s, profile: { name, classroom, gradeBand: band } }))}
+          className="w-full"
+        >
+          Save Profile
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function ProgressCard({ progressPct, badges, conservationPoints, level, streakDays }: { progressPct: number; badges: string[]; conservationPoints?: number; level?: number; streakDays?: number }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-base">Progress</CardTitle>
+        <CardDescription>Track milestones as you explore.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <div className="flex justify-between text-sm">
+            <span>{progressPct}% complete</span>
+          </div>
+          <Progress value={progressPct} className="h-2" />
+        </div>
+        {level && (
+          <div className="text-sm">
+            <div className="font-semibold">Level {level}</div>
+            <div className="text-slate-600">{conservationPoints || 0} points</div>
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {badges.length === 0 && <span className="text-xs text-slate-500">No badges yet</span>}
+          {badges.map((b) => (
+            <Badge key={b} variant="secondary" className="rounded-full">{b}</Badge>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function QuickStatsCard({ state }: { state: AppState }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-base">Quick Stats</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span>Macros Logged:</span>
+          <span className="font-semibold">{state.macros.length}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Habitats Designed:</span>
+          <span className="font-semibold">{state.habitats.length}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Flashcards:</span>
+          <span className="font-semibold">{state.flashcards.length}</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Dashboard({ state }: { state: AppState }) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <Card className="shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-base">Your Badges</CardTitle>
+          <CardDescription>Earn badges by completing modules.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          {state.progress.badges.length === 0 ? (
+            <span className="text-sm text-slate-500">Complete an activity to unlock your first badge.</span>
+          ) : (
+            state.progress.badges.map((b) => <Badge key={b} className="rounded-full">{b}</Badge>)
+          )}
+        </CardContent>
+      </Card>
+      <Card className="shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-base">Recent Activity</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-sm text-slate-500">Track your progress here</div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function WatershedExplorer({ state, setState }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>> }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle>Watershed Explorer</CardTitle>
+        <CardDescription>Learn about watersheds and water systems</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="text-sm text-slate-500">Watershed content coming soon</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function HabitatBuilder({ state, setState, addBadge }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>>; addBadge: (b: string) => void }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle>Habitat Builder</CardTitle>
+        <CardDescription>Design trout habitats</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="text-sm text-slate-500">Habitat builder coming soon</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function MacroKeyGame({ state, setState, addBadge }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>>; addBadge: (b: string) => void }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle>Macroinvertebrate Key</CardTitle>
+        <CardDescription>Identify aquatic organisms</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="text-sm text-slate-500">Macro key game coming soon</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function WaterQualityTracker({ state, setState }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>> }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle>Water Quality Tracker</CardTitle>
+        <CardDescription>Monitor water parameters</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="text-sm text-slate-500">Water quality tracker coming soon</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CareersAndOpportunities({ state, setState, addPoints }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>>; addPoints?: (pts: number) => void }) {
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle>Careers & Opportunities</CardTitle>
+        <CardDescription>Explore conservation careers</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="text-sm text-slate-500">Career opportunities coming soon</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function downloadReport(state: AppState) {
+  const txt = `TIC Activity Report\n\nStudent: ${state.profile.name}\nClass: ${state.profile.classroom}\nBadges: ${state.progress.badges.length}\n`;
+  download("tic_report.txt", txt);
+}
+
+function download(filename: string, text: string) {
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+const MIT_LICENSE = `MIT License
+
+Copyright (c) ${new Date().getFullYear()} String Theory Solutions
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.`;
