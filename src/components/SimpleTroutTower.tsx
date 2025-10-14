@@ -27,26 +27,33 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Game constants (Icy Tower exact values)
+    // Game constants (EXACT Icy Tower physics from source code)
     const CANVAS_WIDTH = 600;
     const CANVAS_HEIGHT = 700;
-    const PLAYER_WIDTH = 40;
-    const PLAYER_HEIGHT = 40;
-    const PLATFORM_HEIGHT = 15;
-    const GRAVITY = 0.8;
-    const JUMP_STRENGTH = -16;
-    const ACCELERATION = 0.5; // Gradual acceleration like Icy Tower
-    const MAX_SPEED = 8;
-    const FRICTION = 0.88;
-    const AIR_RESISTANCE = 0.95;
+    const PLAYER_WIDTH = 25;      // Exact Icy Tower size
+    const PLAYER_HEIGHT = 20;     // Exact Icy Tower size
+    const PLATFORM_HEIGHT = 6;    // Exact Icy Tower size
+    const GRAVITY = 1.0;          // Real Icy Tower gravity
+    const DRAG = 0.999;           // Air friction
+    const GROUND_DRAG = 0.9;      // Ground friction
+    const MOVE_SPEED = 2;         // Horizontal speed (NOT acceleration!)
+    const JUMP_INIT = -3;         // Initial jump power
+    const JUMP_INCREMENT = 0.2;   // Increase per frame when holding
+    const JUMP_MAX = -0.4;        // Maximum jump power
 
     // Game state
     let player = {
       x: CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2,
       y: CANVAS_HEIGHT - 150,
-      vx: 0,
-      vy: 0,
+      vx: 0,      // horizontal velocity (distanceX in original)
+      vy: 0,      // vertical velocity (distanceY in original)
       onGround: false
+    };
+
+    let gameState = {
+      inMiddleOfJump: false,
+      powerOfJump: JUMP_INIT,
+      isGameOver: false
     };
 
     let platforms: Array<{ x: number; y: number; width: number }> = [];
@@ -55,34 +62,36 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
     let currentCombo = 0;
     let keys: { [key: string]: boolean } = {};
 
-    // Initialize platforms
+    // Initialize platforms (EXACT Icy Tower generation)
     function initPlatforms() {
       platforms = [];
       // Ground platform
       platforms.push({ x: 0, y: CANVAS_HEIGHT - 50, width: CANVAS_WIDTH });
       
-      // Generate platforms going up
+      // Generate platforms going up (Icy Tower beginner settings)
+      const MIN_BLOCK_WIDTH = 112;
+      const HORIZONTAL_DISTANCE = 60;
+      const VERTICAL_DISTANCE = 27;  // Exact Icy Tower value
+      
       let lastY = CANVAS_HEIGHT - 50;
       for (let i = 0; i < 50; i++) {
-        lastY -= 80 + Math.random() * 40;
-        const width = 120 - i * 1.5; // Get narrower
-        const x = Math.random() * (CANVAS_WIDTH - width);
-        platforms.push({ x, y: lastY, width: Math.max(60, width) });
+        lastY -= VERTICAL_DISTANCE;
+        
+        // Random width between minBlockWidth and minBlockWidth + 54 (0.09 * 600)
+        const width = Math.floor(Math.random() * 54) + MIN_BLOCK_WIDTH;
+        
+        // Random horizontal position with proper wrapping
+        const x = Math.floor(Math.random() * CANVAS_WIDTH) % (CANVAS_WIDTH - width);
+        
+        platforms.push({ x, y: lastY, width });
       }
     }
 
     initPlatforms();
 
-    // Keyboard handling
+    // Keyboard handling (EXACT Icy Tower system)
     const handleKeyDown = (e: KeyboardEvent) => {
       keys[e.key] = true;
-      
-      // Jump on key press
-      if ((e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w') && player.onGround) {
-        player.vy = JUMP_STRENGTH;
-        player.onGround = false;
-      }
-      
       e.preventDefault();
     };
 
@@ -99,29 +108,52 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
     function gameLoop() {
       if (!ctx || !canvas) return;
 
-      // Handle input with gradual acceleration (like Icy Tower)
+      // EXACT Icy Tower movement system
+      // 1. Handle Jump (up key)
+      if (keys['ArrowUp'] || keys[' '] || keys['w']) {
+        player.onGround = false;
+        
+        if (!gameState.inMiddleOfJump) {
+          gameState.powerOfJump = JUMP_INIT;  // -3
+        } else {
+          gameState.powerOfJump += JUMP_INCREMENT;  // +0.2
+        }
+        
+        // Clamp max jump power
+        if (gameState.powerOfJump >= JUMP_MAX) {
+          gameState.powerOfJump = JUMP_MAX;  // -0.4
+        }
+        
+        player.vy += gameState.powerOfJump;
+        gameState.inMiddleOfJump = true;
+      } else {
+        gameState.inMiddleOfJump = false;
+      }
+
+      // 2. Handle Horizontal Movement (left/right)
       if (keys['ArrowLeft'] || keys['a']) {
-        player.vx -= ACCELERATION;
+        if (!gameState.inMiddleOfJump) {
+          player.vx = -MOVE_SPEED;  // Set to -2 directly
+        }
       }
       if (keys['ArrowRight'] || keys['d']) {
-        player.vx += ACCELERATION;
+        if (!gameState.inMiddleOfJump) {
+          player.vx = MOVE_SPEED;   // Set to 2 directly
+        }
       }
 
-      // Clamp to max speed
-      if (player.vx > MAX_SPEED) player.vx = MAX_SPEED;
-      if (player.vx < -MAX_SPEED) player.vx = -MAX_SPEED;
-
-      // Apply friction (on ground) or air resistance (in air)
-      if (player.onGround) {
-        player.vx *= FRICTION;
+      // 3. Apply Gravity
+      if (!player.onGround) {
+        player.vy += GRAVITY;       // Add 1.0
+        player.vy *= DRAG;          // Multiply by 0.999
       } else {
-        player.vx *= AIR_RESISTANCE;
+        player.vy = 0;
       }
 
-      // Apply gravity
-      player.vy += GRAVITY;
+      // 4. Apply Friction
+      player.vx *= player.onGround ? GROUND_DRAG : DRAG;
 
-      // Update position
+      // 5. Update position
       player.x += player.vx;
       player.y += player.vy;
 
@@ -129,19 +161,21 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
       if (player.x < -PLAYER_WIDTH) player.x = CANVAS_WIDTH;
       if (player.x > CANVAS_WIDTH) player.x = -PLAYER_WIDTH;
 
-      // Platform collision
+      // Platform collision (EXACT Icy Tower collision detection)
       player.onGround = false;
       for (const platform of platforms) {
-        if (player.vy > 0 &&
-            player.y + PLAYER_HEIGHT >= platform.y &&
-            player.y + PLAYER_HEIGHT <= platform.y + PLATFORM_HEIGHT + 5 &&
-            player.x + PLAYER_WIDTH > platform.x &&
-            player.x < platform.x + platform.width) {
-          player.y = platform.y - PLAYER_HEIGHT;
-          player.vy = 0;
+        // Exact Icy Tower collision formula:
+        // block.x < char.x + char.width - 0.15 * char.width &&
+        // char.x < block.x + block.width &&
+        // block.y <= char.y + char.height + 0.1 &&
+        // char.y + char.height < block.y + 6
+        if (platform.x < player.x + PLAYER_WIDTH - 0.15 * PLAYER_WIDTH &&
+            player.x < platform.x + platform.width &&
+            platform.y <= player.y + PLAYER_HEIGHT + 0.1 &&
+            player.y + PLAYER_HEIGHT < platform.y + PLATFORM_HEIGHT) {
           player.onGround = true;
           
-          // Update score
+          // Update score (Icy Tower adds 3 per platform)
           const height = Math.floor((CANVAS_HEIGHT - platform.y) / 10);
           if (height > currentScore) {
             currentCombo++;
@@ -194,8 +228,8 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
         }
       });
 
-      // Draw player (trout emoji)
-      ctx.font = '40px Arial';
+      // Draw player (trout emoji - sized to match Icy Tower char)
+      ctx.font = '28px Arial';  // Matches 25x20 player size
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('🐟', player.x + PLAYER_WIDTH / 2, player.y + PLAYER_HEIGHT / 2);
