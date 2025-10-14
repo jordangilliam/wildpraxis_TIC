@@ -6,7 +6,6 @@ import { Card, CardContent } from "./card";
 import { Button } from "./button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Star, Zap, TrendingUp, Crown } from "lucide-react";
-import { useKeyboardControls } from "../hooks/useKeyboardControls";
 import { ControllerInstructions } from "./ControllerInstructions";
 import { calculateGamePoints } from "../utils/gamePoints";
 
@@ -145,20 +144,45 @@ export function TroutTower({
     startTimeRef.current = Date.now();
   }, [generatePlatforms]);
 
-  // Keyboard controls
-  useKeyboardControls({
-    enabled: state.gameState === 'playing',
-    onKeyDown: (action) => {
-      if (action === 'left') keysPressed.current.add('left');
-      if (action === 'right') keysPressed.current.add('right');
-      if (action === 'action' || action === 'up') keysPressed.current.add('jump');
-    },
-    onKeyUp: (action) => {
-      if (action === 'left') keysPressed.current.delete('left');
-      if (action === 'right') keysPressed.current.delete('right');
-      if (action === 'action' || action === 'up') keysPressed.current.delete('jump');
-    }
-  });
+  // Direct keyboard controls (simpler and more reliable)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (state.gameState !== 'playing') return;
+      
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        keysPressed.current.add('left');
+        e.preventDefault();
+      }
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        keysPressed.current.add('right');
+        e.preventDefault();
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+        keysPressed.current.add('jump');
+        e.preventDefault();
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        keysPressed.current.delete('left');
+      }
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        keysPressed.current.delete('right');
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+        keysPressed.current.delete('jump');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [state.gameState]);
 
   // Main game loop
   useEffect(() => {
@@ -418,48 +442,19 @@ export function TroutTower({
       }
     });
 
-    // Draw player (trout)
+    // Draw player (simple trout - just a colored rectangle with emoji)
     ctx.save();
-    ctx.translate(state.player.x + 15, state.player.y + 20);
     
-    // Flip based on direction
-    if (state.player.velocityX < 0) {
-      ctx.scale(-1, 1);
-    }
-
-    // Draw trout body
+    // Draw simple body
     ctx.fillStyle = '#f97316';
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 15, 20, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Draw spots
-    ctx.fillStyle = '#dc2626';
-    for (let i = 0; i < 3; i++) {
-      ctx.beginPath();
-      ctx.arc(-5 + i * 5, -5 + i * 3, 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // Draw eye
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.arc(8, -5, 4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#000000';
-    ctx.beginPath();
-    ctx.arc(9, -5, 2, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Draw tail
-    ctx.fillStyle = '#f97316';
-    ctx.beginPath();
-    ctx.moveTo(-15, 0);
-    ctx.lineTo(-25, -8);
-    ctx.lineTo(-25, 8);
-    ctx.closePath();
-    ctx.fill();
-
+    ctx.fillRect(state.player.x, state.player.y, 30, 40);
+    
+    // Draw trout emoji on top
+    ctx.font = '30px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🐟', state.player.x + 15, state.player.y + 20);
+    
     ctx.restore();
 
     ctx.restore();
