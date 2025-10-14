@@ -27,7 +27,7 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Game constants
+    // Game constants (Icy Tower exact values)
     const CANVAS_WIDTH = 600;
     const CANVAS_HEIGHT = 700;
     const PLAYER_WIDTH = 40;
@@ -35,8 +35,10 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
     const PLATFORM_HEIGHT = 15;
     const GRAVITY = 0.8;
     const JUMP_STRENGTH = -16;
-    const MOVE_SPEED = 7;
-    const FRICTION = 0.85;
+    const ACCELERATION = 0.5; // Gradual acceleration like Icy Tower
+    const MAX_SPEED = 8;
+    const FRICTION = 0.88;
+    const AIR_RESISTANCE = 0.95;
 
     // Game state
     let player = {
@@ -97,16 +99,24 @@ export function SimpleTroutTower({ onBack, onGameEnd, highScore }: SimpleTroutTo
     function gameLoop() {
       if (!ctx || !canvas) return;
 
-      // Handle input
+      // Handle input with gradual acceleration (like Icy Tower)
       if (keys['ArrowLeft'] || keys['a']) {
-        player.vx -= MOVE_SPEED;
+        player.vx -= ACCELERATION;
       }
       if (keys['ArrowRight'] || keys['d']) {
-        player.vx += MOVE_SPEED;
+        player.vx += ACCELERATION;
       }
 
-      // Apply friction
-      player.vx *= FRICTION;
+      // Clamp to max speed
+      if (player.vx > MAX_SPEED) player.vx = MAX_SPEED;
+      if (player.vx < -MAX_SPEED) player.vx = -MAX_SPEED;
+
+      // Apply friction (on ground) or air resistance (in air)
+      if (player.onGround) {
+        player.vx *= FRICTION;
+      } else {
+        player.vx *= AIR_RESISTANCE;
+      }
 
       // Apply gravity
       player.vy += GRAVITY;
