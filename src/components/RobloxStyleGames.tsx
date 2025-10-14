@@ -19,6 +19,9 @@ import {
   Flame,
   Crown
 } from "lucide-react";
+import { useKeyboardControls } from "../hooks/useKeyboardControls";
+import { ControllerInstructions, PRESET_CONTROLS } from "./ControllerInstructions";
+import { calculateGamePoints, calculateLevel, getPointsTier, getConservationRank } from "../utils/gamePoints";
 
 interface GameStats {
   gamesPlayed: number;
@@ -337,21 +340,41 @@ function TroutRushGame({
   onGameEnd: (score: number, points: number) => void;
   highScore: number;
 }) {
+  const [showInstructions, setShowInstructions] = useState(true);
   const [gameState, setGameState] = useState<"ready" | "playing" | "gameover">("ready");
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [troutPosition, setTroutPosition] = useState(50);
   const [obstacles, setObstacles] = useState<Array<{ id: number; x: number; y: number; type: "food" | "pollution" | "powerup" }>>([]);
   const [combo, setCombo] = useState(0);
+  const [perfectHits, setPerfectHits] = useState(0);
   const gameLoopRef = useRef<number>();
   const nextIdRef = useRef(0);
+  const startTimeRef = useRef<number>(0);
 
   const jump = useCallback(() => {
     if (gameState === "playing" && troutPosition === 50) {
       setTroutPosition(20);
       setTimeout(() => setTroutPosition(50), 500);
+    } else if (gameState === "playing" && troutPosition === 20) {
+      setTroutPosition(50);
     }
   }, [gameState, troutPosition]);
+
+  // Enhanced keyboard controls
+  useKeyboardControls({
+    enabled: !showInstructions,
+    onKeyPress: (action) => {
+      if (action === "action" || action === "up") {
+        if (gameState === "ready") {
+          startTimeRef.current = Date.now();
+          setGameState("playing");
+        } else if (gameState === "playing") {
+          jump();
+        }
+      }
+    }
+  });
 
   useEffect(() => {
     if (gameState !== "playing") return;
@@ -405,29 +428,42 @@ function TroutRushGame({
   useEffect(() => {
     if (lives <= 0 && gameState === "playing") {
       setGameState("gameover");
-      const earnedPoints = Math.floor(score / 10);
-      onGameEnd(score, earnedPoints);
+      const playTime = Date.now() - startTimeRef.current;
+      const timeBonus = Math.max(0, 300 - Math.floor(playTime / 1000));
+      
+      const pointCalc = calculateGamePoints({
+        baseScore: score,
+        combo,
+        perfectHits,
+        timeBonus,
+        difficultyMultiplier: 1.0
+      }, "trout-rush");
+      
+      onGameEnd(score, pointCalc.total);
     }
-  }, [lives, gameState, score, onGameEnd]);
-
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.code === "Space") {
-        e.preventDefault();
-        if (gameState === "ready") {
-          setGameState("playing");
-        } else {
-          jump();
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [gameState, jump]);
+  }, [lives, gameState, score, combo, perfectHits, onGameEnd]);
 
   return (
     <div className="relative">
+      {showInstructions && (
+        <ControllerInstructions
+          gameName="TROUT RUSH"
+          icon="🐟"
+          controls={[
+            { action: "Jump / Switch Lane", keys: ["SPACE", "↑", "W"], description: "Move between lanes" },
+            { action: "Start Game", keys: ["SPACE"], description: "Begin playing" }
+          ]}
+          tips={[
+            "Collect 🦐 food for +10 points each",
+            "Avoid ☠️ pollution or lose a life",
+            "Grab ⭐ power-ups for +50 points and health restore",
+            "Build combos by collecting food consecutively",
+            "Each combo level adds bonus points per second!"
+          ]}
+          onStart={() => setShowInstructions(false)}
+        />
+      )}
+
       <Card className="rounded-3xl border-4 border-white shadow-2xl overflow-hidden">
         <div className="bg-gradient-to-b from-sky-400 to-blue-600 p-6">
           <div className="flex items-center justify-between text-white mb-4">
