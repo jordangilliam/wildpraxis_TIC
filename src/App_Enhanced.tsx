@@ -532,7 +532,7 @@ export default function TICEnhancedApp() {
                   </TabsList>
 
                   <TabsContent value="dashboard" className="pt-4">
-                    <Dashboard state={state} setState={setState} />
+                    <Dashboard state={state} />
                   </TabsContent>
 
                   <TabsContent value="lessons" className="pt-4">
@@ -691,7 +691,7 @@ function ProfileCard({ state, setState }: { state: AppState; setState: React.Dis
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button
-          onClick={() => setState((s) => ({ ...s, profile: { name, classroom, gradeBand: band } }))}
+          onClick={() => setState((s) => ({ ...s, profile: { ...s.profile, name, classroom, gradeBand: band } }))}
           className="w-full"
         >
           Save Profile
@@ -748,8 +748,8 @@ function QuickStatsCard({ state }: { state: AppState }) {
           <span className="font-semibold">{state.habitats.length}</span>
         </div>
         <div className="flex justify-between">
-          <span>Flashcards:</span>
-          <span className="font-semibold">{state.flashcards.length}</span>
+          <span>Milestones:</span>
+          <span className="font-semibold">{state.troutMilestones.length}</span>
         </div>
       </CardContent>
     </Card>
@@ -857,18 +857,6 @@ function CareersAndOpportunities({ state, setState, addPoints }: { state: AppSta
 function downloadReport(state: AppState) {
   const txt = `TIC Activity Report\n\nStudent: ${state.profile.name}\nClass: ${state.profile.classroom}\nBadges: ${state.progress.badges.length}\n`;
   download("tic_report.txt", txt);
-}
-
-function download(filename: string, text: string) {
-  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 
 const MIT_LICENSE = `MIT License

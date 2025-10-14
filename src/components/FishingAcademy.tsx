@@ -591,6 +591,90 @@ function KnotCard({
   );
 }
 
-// Continue with other components in next message due to length...
-// (FishingTechniques, BaitLuresFlies, MatchTheHatch, PAWatersExplorer, StockingSchedule, RegulationsFAQ)
+// ==============================
+// STUB COMPONENTS
+// ==============================
 
+function FishingTechniques() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Fishing Techniques</CardTitle>
+        <CardDescription>Learn various fishing methods</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-slate-600">Fishing techniques content coming soon...</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function BaitLuresFlies() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Bait, Lures & Flies</CardTitle>
+        <CardDescription>Explore different fishing gear</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-slate-600">Bait and lures content coming soon...</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function MatchTheHatch() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Match the Hatch</CardTitle>
+        <CardDescription>Understanding insect hatches</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-slate-600">Match the hatch content coming soon...</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PAWatersExplorer() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>PA Waters Explorer</CardTitle>
+        <CardDescription>Explore Pennsylvania waterways</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-slate-600">PA waters map coming soon...</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function StockingSchedule() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Stocking Schedule</CardTitle>
+        <CardDescription>PFBC trout stocking information</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-slate-600">Stocking schedule coming soon...</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RegulationsFAQ() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Regulations & FAQ</CardTitle>
+        <CardDescription>Pennsylvania fishing regulations</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-slate-600">Regulations FAQ coming soon...</p>
+      </CardContent>
+    </Card>
+  );
+}

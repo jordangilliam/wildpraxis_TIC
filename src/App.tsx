@@ -512,7 +512,7 @@ function buildNitrogenDemoChart(state: AppState) {
 // ------------------------------
 function WatershedExplorer({ state, setState }: { state: AppState; setState: React.Dispatch<React.SetStateAction<AppState>> }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<Map | null>(null);
+  const mapRef = useRef<MapboxMap | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -527,7 +527,7 @@ function WatershedExplorer({ state, setState }: { state: AppState; setState: Rea
         center: [-79.95, 40.45], // Pittsburgh approx
         zoom: 11.2,
       });
-      mapRef.current = map as unknown as Map;
+      mapRef.current = map as unknown as MapboxMap;
 
       map.on("load", () => {
         if (cancelled) return;
