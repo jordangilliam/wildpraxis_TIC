@@ -22,6 +22,7 @@ import {
 import { useKeyboardControls } from "../hooks/useKeyboardControls";
 import { ControllerInstructions, PRESET_CONTROLS } from "./ControllerInstructions";
 import { calculateGamePoints, calculateLevel, getPointsTier, getConservationRank } from "../utils/gamePoints";
+import { TroutTower } from "./TroutTower";
 
 interface GameStats {
   gamesPlayed: number;
@@ -108,6 +109,82 @@ export function RobloxStyleGames({
             <StatBubble icon={<Award className="h-6 w-6" />} label="Achievements" value={stats.achievements.length} />
           </div>
         </div>
+      </motion.div>
+
+      {/* Featured Game - Trout Tower */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
+        <Card className="rounded-3xl border-4 border-yellow-400 shadow-2xl overflow-hidden bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Crown className="h-8 w-8 text-yellow-600 animate-pulse" />
+              <div>
+                <div className="text-sm font-bold text-yellow-700 uppercase tracking-wide">Premier Game</div>
+                <h3 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600">
+                  TROUT TOWER
+                </h3>
+              </div>
+              <div className="ml-auto">
+                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-lg px-4 py-2">
+                  🏆 NEW!
+                </Badge>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <p className="text-slate-700 mb-4 text-lg">
+                  <strong>Icy Tower style vertical platformer!</strong> Jump, build momentum, and climb as high as you can. Master the physics, land perfect jumps, and break combo records!
+                </p>
+                <div className="space-y-2 text-sm text-slate-600">
+                  <div className="flex items-start gap-2">
+                    <Zap className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>Physics-Based:</strong> Hold jump for higher jumps, build momentum</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <TrendingUp className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>Combo System:</strong> Chain jumps for speed boosts & power jumps</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Star className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>Perfect Landings:</strong> Nail platform centers for bonus points</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="bg-white rounded-xl p-4 border-2 border-yellow-200">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold text-slate-700">Difficulty</span>
+                    <Badge className="bg-orange-500">Medium</Badge>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold text-slate-700">Points Range</span>
+                    <span className="text-lg font-bold text-orange-600">50-500+</span>
+                  </div>
+                  {stats.highScores["trout-tower"] > 0 && (
+                    <div className="flex justify-between items-center pt-2 border-t border-yellow-200">
+                      <span className="font-semibold text-slate-700">Your Best</span>
+                      <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600">
+                        {stats.highScores["trout-tower"]}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                <Button
+                  onClick={() => setSelectedGame("trout-tower")}
+                  className="w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 hover:from-yellow-600 hover:via-orange-600 hover:to-red-600 text-white text-xl py-6 font-black shadow-xl"
+                >
+                  🎮 PLAY NOW! 🎮
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </motion.div>
 
       {/* Game Grid */}
@@ -309,6 +386,7 @@ function GameWrapper({
   highScore: number;
 }) {
   const games = {
+    "trout-tower": TroutTower,
     "trout-rush": TroutRushGame,
     "macro-blast": MacroBlastGame,
     "stream-defender": StreamDefenderGame,
@@ -317,7 +395,7 @@ function GameWrapper({
     "knot-master": KnotMasterGame
   };
 
-  const GameComponent = games[gameId as keyof typeof games] || TroutRushGame;
+  const GameComponent = games[gameId as keyof typeof games] || TroutTower;
 
   return (
     <div className="min-h-[600px]">
