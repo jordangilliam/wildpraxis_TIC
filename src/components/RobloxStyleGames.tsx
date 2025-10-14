@@ -22,7 +22,7 @@ import {
 import { useKeyboardControls } from "../hooks/useKeyboardControls";
 import { ControllerInstructions, PRESET_CONTROLS } from "./ControllerInstructions";
 import { calculateGamePoints, calculateLevel, getPointsTier, getConservationRank } from "../utils/gamePoints";
-import { TroutTower } from "./TroutTower";
+import { SimpleTroutTower } from "./SimpleTroutTower";
 
 interface GameStats {
   gamesPlayed: number;
@@ -386,7 +386,7 @@ function GameWrapper({
   highScore: number;
 }) {
   const games = {
-    "trout-tower": TroutTower,
+    "trout-tower": SimpleTroutTower,
     "trout-rush": TroutRushGame,
     "macro-blast": MacroBlastGame,
     "stream-defender": StreamDefenderGame,
@@ -395,7 +395,7 @@ function GameWrapper({
     "knot-master": KnotMasterGame
   };
 
-  const GameComponent = games[gameId as keyof typeof games] || TroutTower;
+  const GameComponent = games[gameId as keyof typeof games] || SimpleTroutTower;
 
   return (
     <div className="min-h-[600px]">
