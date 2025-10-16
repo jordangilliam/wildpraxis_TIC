@@ -454,8 +454,8 @@ function WaterChemistryLab() {
                 <p className="font-semibold">💡 Real-World Context:</p>
                 <ul className="space-y-1 text-gray-700">
                   <li>• Trout prefer pH 6.5-8.0 (slightly acidic to neutral)</li>
-                  <li>• Low pH (<6.0) damages gills and skin</li>
-                  <li>• High pH (>8.5) causes ammonia toxicity</li>
+                  <li>• Low pH (&lt;6.0) damages gills and skin</li>
+                  <li>• High pH (&gt;8.5) causes ammonia toxicity</li>
                   <li>• Use baking soda to raise pH, peat moss to lower</li>
                 </ul>
               </CardContent>
@@ -592,7 +592,7 @@ function DissolvedOxygenLab() {
                   <li>• <strong>Excellent:</strong> 9+ mg/L (ideal for growth)</li>
                   <li>• <strong>Good:</strong> 7-9 mg/L (acceptable)</li>
                   <li>• <strong>Stressed:</strong> 5-7 mg/L (survival mode)</li>
-                  <li>• <strong>Critical:</strong> <5 mg/L (life-threatening)</li>
+                  <li>• <strong>Critical:</strong> &lt;5 mg/L (life-threatening)</li>
                 </ul>
               </div>
 
