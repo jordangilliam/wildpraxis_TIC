@@ -23,6 +23,15 @@ import { AIMacroIdentifier } from "@/components/AIMacroIdentifier";
 import { BrookAIChat } from "@/components/BrookAIChat";
 import { VirtualTroutLifeCycle } from "@/components/VirtualTroutLifeCycle";
 import { CrisisScenarios } from "@/components/CrisisScenarios";
+import { AccessibilityPanel } from "@/components/AccessibilityPanel";
+import { VideoLibrary } from "@/components/VideoLibrary";
+import { PodcastPlayer } from "@/components/PodcastPlayer";
+import { ARTroutAnatomy } from "@/components/ARTroutAnatomy";
+import { ParentPortal } from "@/components/ParentPortal";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
+import { useGlobalKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import '@/i18n/config';
 const Badge = ({ children, variant="secondary", className="" }:{ children: React.ReactNode; variant?: string; className?: string }) => (
   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${variant==='secondary' ? 'bg-slate-100 text-slate-700' : ''} ${className}`}>{children}</span>
 );
@@ -50,6 +59,11 @@ import {
   MessageCircle,
   Eye,
   AlertTriangle,
+  Accessibility as AccessibilityIcon,
+  Video,
+  Podcast,
+  Globe,
+  Users,
 } from "lucide-react";
 import type { Map as MapboxMap } from "mapbox-gl";
 
@@ -236,8 +250,19 @@ const SAMPLE_OPPORTUNITIES: Opportunity[] = [
 // App Component
 // ------------------------------
 export default function TICOpenSourceApp() {
+  return (
+    <AccessibilityProvider>
+      <AppContent />
+    </AccessibilityProvider>
+  );
+}
+
+function AppContent() {
   const [state, setState] = useState<AppState>(() => loadState() ?? DEFAULT_STATE);
   const [activeTab, setActiveTab] = useState("dashboard");
+
+  // Global keyboard shortcuts
+  useGlobalKeyboardShortcuts(setActiveTab);
 
   useEffect(() => {
     saveState(state);
@@ -273,6 +298,7 @@ export default function TICOpenSourceApp() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <Button variant="outline" size="sm" onClick={() => downloadReport(state)}>Generate Report</Button>
             <Button size="sm" onClick={() => simulateWeeklySync(setState)}>Sync Opportunities</Button>
           </div>
@@ -304,6 +330,11 @@ export default function TICOpenSourceApp() {
                     <TabsTrigger value="brook-ai"><MessageCircle className="h-4 w-4 mr-2"/>BrookAI</TabsTrigger>
                     <TabsTrigger value="life-cycle"><Eye className="h-4 w-4 mr-2"/>Life Cycle</TabsTrigger>
                     <TabsTrigger value="crisis"><AlertTriangle className="h-4 w-4 mr-2"/>Crisis Training</TabsTrigger>
+                    <TabsTrigger value="videos"><Video className="h-4 w-4 mr-2"/>Videos</TabsTrigger>
+                    <TabsTrigger value="podcasts"><Podcast className="h-4 w-4 mr-2"/>Podcast</TabsTrigger>
+                    <TabsTrigger value="ar-anatomy"><Globe className="h-4 w-4 mr-2"/>AR Anatomy</TabsTrigger>
+                    <TabsTrigger value="accessibility"><AccessibilityIcon className="h-4 w-4 mr-2"/>Accessibility</TabsTrigger>
+                    <TabsTrigger value="parent-portal"><Users className="h-4 w-4 mr-2"/>Parent Portal</TabsTrigger>
                     <TabsTrigger value="watershed"><MapPin className="h-4 w-4 mr-2"/>Watershed Explorer</TabsTrigger>
                     <TabsTrigger value="habitat"><Waves className="h-4 w-4 mr-2"/>Habitat Builder</TabsTrigger>
                     <TabsTrigger value="macro"><Microscope className="h-4 w-4 mr-2"/>Macro ID</TabsTrigger>
@@ -337,6 +368,21 @@ export default function TICOpenSourceApp() {
                   </TabsContent>
                   <TabsContent value="crisis" className="pt-4">
                     <CrisisScenarios />
+                  </TabsContent>
+                  <TabsContent value="videos" className="pt-4">
+                    <VideoLibrary />
+                  </TabsContent>
+                  <TabsContent value="podcasts" className="pt-4">
+                    <PodcastPlayer />
+                  </TabsContent>
+                  <TabsContent value="ar-anatomy" className="pt-4">
+                    <ARTroutAnatomy />
+                  </TabsContent>
+                  <TabsContent value="accessibility" className="pt-4">
+                    <AccessibilityPanel />
+                  </TabsContent>
+                  <TabsContent value="parent-portal" className="pt-4">
+                    <ParentPortal />
                   </TabsContent>
                   <TabsContent value="watershed" className="pt-4">
                     <WatershedExplorer state={state} setState={setState} />
