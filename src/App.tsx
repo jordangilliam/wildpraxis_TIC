@@ -31,6 +31,9 @@ import { ParentPortal } from "@/components/ParentPortal";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { useGlobalKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { VirtualLabs } from "@/components/VirtualLabs";
+import { VocabularyBuilder } from "@/components/VocabularyBuilder";
+import { StudentWorksheets } from "@/components/StudentWorksheets";
 import '@/i18n/config';
 const Badge = ({ children, variant="secondary", className="" }:{ children: React.ReactNode; variant?: string; className?: string }) => (
   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${variant==='secondary' ? 'bg-slate-100 text-slate-700' : ''} ${className}`}>{children}</span>
@@ -64,6 +67,9 @@ import {
   Podcast,
   Globe,
   Users,
+  Beaker,
+  BookOpen,
+  FileText,
 } from "lucide-react";
 import type { Map as MapboxMap } from "mapbox-gl";
 
@@ -326,6 +332,9 @@ function AppContent() {
                     <TabsTrigger value="datavis"><TrendingUp className="h-4 w-4 mr-2"/>Data Analysis</TabsTrigger>
                     <TabsTrigger value="fieldapp"><Smartphone className="h-4 w-4 mr-2"/>Field App</TabsTrigger>
                     <TabsTrigger value="learning"><Brain className="h-4 w-4 mr-2"/>Learning</TabsTrigger>
+                    <TabsTrigger value="virtual-labs"><Beaker className="h-4 w-4 mr-2"/>Virtual Labs</TabsTrigger>
+                    <TabsTrigger value="vocabulary"><BookOpen className="h-4 w-4 mr-2"/>Vocabulary</TabsTrigger>
+                    <TabsTrigger value="worksheets"><FileText className="h-4 w-4 mr-2"/>Worksheets</TabsTrigger>
                     <TabsTrigger value="ai-macro"><Camera className="h-4 w-4 mr-2"/>AI Macro ID</TabsTrigger>
                     <TabsTrigger value="brook-ai"><MessageCircle className="h-4 w-4 mr-2"/>BrookAI</TabsTrigger>
                     <TabsTrigger value="life-cycle"><Eye className="h-4 w-4 mr-2"/>Life Cycle</TabsTrigger>
@@ -356,6 +365,15 @@ function AppContent() {
                   </TabsContent>
                   <TabsContent value="learning" className="pt-4">
                     <InteractiveLearning />
+                  </TabsContent>
+                  <TabsContent value="virtual-labs" className="pt-4">
+                    <VirtualLabs />
+                  </TabsContent>
+                  <TabsContent value="vocabulary" className="pt-4">
+                    <VocabularyBuilder />
+                  </TabsContent>
+                  <TabsContent value="worksheets" className="pt-4">
+                    <StudentWorksheets />
                   </TabsContent>
                   <TabsContent value="ai-macro" className="pt-4">
                     <AIMacroIdentifier />
