@@ -122,7 +122,7 @@ export function WaterQualityTester() {
     }
   }, [testResults]);
 
-  const handleInputChange = (field: keyof WaterTestResult, value: string | number) => {
+  const handleInputChange = (field: keyof WaterTestResult, value: string | number | Date) => {
     setCurrentTest(prev => ({ ...prev, [field]: value }));
   };
 

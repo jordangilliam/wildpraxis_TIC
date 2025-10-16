@@ -193,8 +193,8 @@ export const TroutTowerExact: React.FC<TroutTowerExactProps> = ({ onGameEnd }) =
         if (player.deltaX > 2) {
           // High speed jump with projectile formula (lines 119-121)
           const velocity = Math.sqrt(49 + Math.abs(player.deltaX) * Math.abs(player.deltaX));
-          player.deltaY += velocity * Math.sin(Math.toRadians(70));
-          player.deltaY += velocity * Math.sin(Math.toRadians(20)); // 90-70
+          player.deltaY += velocity * Math.sin(70 * Math.PI / 180);
+          player.deltaY += velocity * Math.sin(20 * Math.PI / 180); // 90-70
         } else {
           // Normal jump (line 123)
           player.deltaY += 7;

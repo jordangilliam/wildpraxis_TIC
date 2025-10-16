@@ -243,7 +243,7 @@ export async function fetchWeatherData(
       wind_speed_unit: 'mph',
       precipitation_unit: 'inch',
       timezone: 'America/New_York',
-      forecast_days: 7
+      forecast_days: '7'
     });
 
     const response = await fetch(

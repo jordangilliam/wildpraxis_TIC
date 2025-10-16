@@ -107,10 +107,10 @@ export function ARTroutAnatomy() {
 
             {/* Control Buttons (for actual implementation) */}
             <div className="absolute bottom-4 right-4 flex gap-2">
-              <Button variant="secondary" size="sm" title="Reset view">
+              <Button variant="outline" size="sm" title="Reset view">
                 <RotateCw className="w-4 h-4" />
               </Button>
-              <Button variant="secondary" size="sm" title="Fullscreen">
+              <Button variant="outline" size="sm" title="Fullscreen">
                 <Maximize2 className="w-4 h-4" />
               </Button>
             </div>
