@@ -19,6 +19,10 @@ import { LiveDataDashboard } from "@/components/LiveDataDashboard";
 import { DataVisualization } from "@/components/DataVisualization";
 import { MobileFieldApp } from "@/components/MobileFieldApp";
 import { InteractiveLearning } from "@/components/InteractiveLearning";
+import { AIMacroIdentifier } from "@/components/AIMacroIdentifier";
+import { BrookAIChat } from "@/components/BrookAIChat";
+import { VirtualTroutLifeCycle } from "@/components/VirtualTroutLifeCycle";
+import { CrisisScenarios } from "@/components/CrisisScenarios";
 const Badge = ({ children, variant="secondary", className="" }:{ children: React.ReactNode; variant?: string; className?: string }) => (
   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${variant==='secondary' ? 'bg-slate-100 text-slate-700' : ''} ${className}`}>{children}</span>
 );
@@ -42,6 +46,10 @@ import {
   TrendingUp,
   Smartphone,
   Brain,
+  Camera,
+  MessageCircle,
+  Eye,
+  AlertTriangle,
 } from "lucide-react";
 import type { Map as MapboxMap } from "mapbox-gl";
 
@@ -292,6 +300,10 @@ export default function TICOpenSourceApp() {
                     <TabsTrigger value="datavis"><TrendingUp className="h-4 w-4 mr-2"/>Data Analysis</TabsTrigger>
                     <TabsTrigger value="fieldapp"><Smartphone className="h-4 w-4 mr-2"/>Field App</TabsTrigger>
                     <TabsTrigger value="learning"><Brain className="h-4 w-4 mr-2"/>Learning</TabsTrigger>
+                    <TabsTrigger value="ai-macro"><Camera className="h-4 w-4 mr-2"/>AI Macro ID</TabsTrigger>
+                    <TabsTrigger value="brook-ai"><MessageCircle className="h-4 w-4 mr-2"/>BrookAI</TabsTrigger>
+                    <TabsTrigger value="life-cycle"><Eye className="h-4 w-4 mr-2"/>Life Cycle</TabsTrigger>
+                    <TabsTrigger value="crisis"><AlertTriangle className="h-4 w-4 mr-2"/>Crisis Training</TabsTrigger>
                     <TabsTrigger value="watershed"><MapPin className="h-4 w-4 mr-2"/>Watershed Explorer</TabsTrigger>
                     <TabsTrigger value="habitat"><Waves className="h-4 w-4 mr-2"/>Habitat Builder</TabsTrigger>
                     <TabsTrigger value="macro"><Microscope className="h-4 w-4 mr-2"/>Macro ID</TabsTrigger>
@@ -313,6 +325,18 @@ export default function TICOpenSourceApp() {
                   </TabsContent>
                   <TabsContent value="learning" className="pt-4">
                     <InteractiveLearning />
+                  </TabsContent>
+                  <TabsContent value="ai-macro" className="pt-4">
+                    <AIMacroIdentifier />
+                  </TabsContent>
+                  <TabsContent value="brook-ai" className="pt-4">
+                    <BrookAIChat />
+                  </TabsContent>
+                  <TabsContent value="life-cycle" className="pt-4">
+                    <VirtualTroutLifeCycle />
+                  </TabsContent>
+                  <TabsContent value="crisis" className="pt-4">
+                    <CrisisScenarios />
                   </TabsContent>
                   <TabsContent value="watershed" className="pt-4">
                     <WatershedExplorer state={state} setState={setState} />
