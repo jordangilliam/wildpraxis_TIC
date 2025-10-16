@@ -15,6 +15,7 @@ import { Label } from "@/components/label";
 import { Textarea } from "@/components/textarea";
 import { Switch } from "@/components/switch";
 import { Progress } from "@/components/progress";
+import { LiveDataDashboard } from "@/components/LiveDataDashboard";
 const Badge = ({ children, variant="secondary", className="" }:{ children: React.ReactNode; variant?: string; className?: string }) => (
   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${variant==='secondary' ? 'bg-slate-100 text-slate-700' : ''} ${className}`}>{children}</span>
 );
@@ -34,6 +35,7 @@ import {
   ChevronRight,
   Plus,
   Star,
+  Activity,
 } from "lucide-react";
 import type { Map as MapboxMap } from "mapbox-gl";
 
@@ -280,6 +282,7 @@ export default function TICOpenSourceApp() {
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                   <TabsList className="flex flex-wrap">
                     <TabsTrigger value="dashboard"><BarChart3 className="h-4 w-4 mr-2"/>Dashboard</TabsTrigger>
+                    <TabsTrigger value="livedata"><Activity className="h-4 w-4 mr-2"/>Live Data</TabsTrigger>
                     <TabsTrigger value="watershed"><MapPin className="h-4 w-4 mr-2"/>Watershed Explorer</TabsTrigger>
                     <TabsTrigger value="habitat"><Waves className="h-4 w-4 mr-2"/>Habitat Builder</TabsTrigger>
                     <TabsTrigger value="macro"><Microscope className="h-4 w-4 mr-2"/>Macro ID</TabsTrigger>
@@ -290,6 +293,9 @@ export default function TICOpenSourceApp() {
                   </TabsList>
 
                   <TabsContent value="dashboard" className="pt-4"><Dashboard state={state} /></TabsContent>
+                  <TabsContent value="livedata" className="pt-4">
+                    <LiveDataDashboard />
+                  </TabsContent>
                   <TabsContent value="watershed" className="pt-4">
                     <WatershedExplorer state={state} setState={setState} />
                   </TabsContent>
