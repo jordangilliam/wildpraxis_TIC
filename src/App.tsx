@@ -16,6 +16,9 @@ import { Textarea } from "@/components/textarea";
 import { Switch } from "@/components/switch";
 import { Progress } from "@/components/progress";
 import { LiveDataDashboard } from "@/components/LiveDataDashboard";
+import { DataVisualization } from "@/components/DataVisualization";
+import { MobileFieldApp } from "@/components/MobileFieldApp";
+import { InteractiveLearning } from "@/components/InteractiveLearning";
 const Badge = ({ children, variant="secondary", className="" }:{ children: React.ReactNode; variant?: string; className?: string }) => (
   <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${variant==='secondary' ? 'bg-slate-100 text-slate-700' : ''} ${className}`}>{children}</span>
 );
@@ -36,6 +39,9 @@ import {
   Plus,
   Star,
   Activity,
+  TrendingUp,
+  Smartphone,
+  Brain,
 } from "lucide-react";
 import type { Map as MapboxMap } from "mapbox-gl";
 
@@ -283,6 +289,9 @@ export default function TICOpenSourceApp() {
                   <TabsList className="flex flex-wrap">
                     <TabsTrigger value="dashboard"><BarChart3 className="h-4 w-4 mr-2"/>Dashboard</TabsTrigger>
                     <TabsTrigger value="livedata"><Activity className="h-4 w-4 mr-2"/>Live Data</TabsTrigger>
+                    <TabsTrigger value="datavis"><TrendingUp className="h-4 w-4 mr-2"/>Data Analysis</TabsTrigger>
+                    <TabsTrigger value="fieldapp"><Smartphone className="h-4 w-4 mr-2"/>Field App</TabsTrigger>
+                    <TabsTrigger value="learning"><Brain className="h-4 w-4 mr-2"/>Learning</TabsTrigger>
                     <TabsTrigger value="watershed"><MapPin className="h-4 w-4 mr-2"/>Watershed Explorer</TabsTrigger>
                     <TabsTrigger value="habitat"><Waves className="h-4 w-4 mr-2"/>Habitat Builder</TabsTrigger>
                     <TabsTrigger value="macro"><Microscope className="h-4 w-4 mr-2"/>Macro ID</TabsTrigger>
@@ -295,6 +304,15 @@ export default function TICOpenSourceApp() {
                   <TabsContent value="dashboard" className="pt-4"><Dashboard state={state} /></TabsContent>
                   <TabsContent value="livedata" className="pt-4">
                     <LiveDataDashboard />
+                  </TabsContent>
+                  <TabsContent value="datavis" className="pt-4">
+                    <DataVisualization />
+                  </TabsContent>
+                  <TabsContent value="fieldapp" className="pt-4">
+                    <MobileFieldApp />
+                  </TabsContent>
+                  <TabsContent value="learning" className="pt-4">
+                    <InteractiveLearning />
                   </TabsContent>
                   <TabsContent value="watershed" className="pt-4">
                     <WatershedExplorer state={state} setState={setState} />
