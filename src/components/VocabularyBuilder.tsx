@@ -410,10 +410,10 @@ function FlashcardsMode({ terms, mastered, setMastered }: {
     setCurrentIndex((currentIndex - 1 + terms.length) % terms.length);
   };
 
-  const markMastered = (mastered: boolean) => {
-    const newMastered = mastered
-      ? [...new Set([...masteredTerms, currentTerm.id])]
-      : masteredTerms.filter(id => id !== currentTerm.id);
+  const markMastered = (isMastered: boolean) => {
+    const newMastered = isMastered
+      ? [...new Set([...mastered, currentTerm.id])]
+      : mastered.filter(id => id !== currentTerm.id);
     setMastered(newMastered);
     nextCard();
   };
