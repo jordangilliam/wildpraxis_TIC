@@ -67,6 +67,7 @@ import { ResourceHub } from "./components/ResourceHub";
 import { FishingAcademy } from "./components/FishingAcademy";
 import { CitizenScienceHub } from "./components/CitizenScienceHub";
 import { RobloxStyleGames } from "./components/RobloxStyleGames";
+import { ParentPortal } from "./components/ParentPortal";
 import { AchievementToast, useAchievementSystem, ACHIEVEMENTS } from "./components/AchievementSystem";
 import { WLA_ALIGNED_BADGES, PATIC_LESSONS } from "./data/curriculum";
 
@@ -529,6 +530,10 @@ export default function TICEnhancedApp() {
                       <Calendar className="h-4 w-4 mr-2" />
                       Opportunities
                     </TabsTrigger>
+                    <TabsTrigger value="parent-portal" className="rounded-full">
+                      <Users className="h-4 w-4 mr-2" />
+                      Parent Portal
+                    </TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="dashboard" className="pt-4">
@@ -619,6 +624,10 @@ export default function TICEnhancedApp() {
                         progress: { ...s.progress, conservationPoints: s.progress.conservationPoints + pts }
                       }));
                     }} />
+                  </TabsContent>
+
+                  <TabsContent value="parent-portal" className="pt-4">
+                    <ParentPortal />
                   </TabsContent>
                 </Tabs>
               </CardContent>
